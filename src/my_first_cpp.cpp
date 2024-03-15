@@ -8,11 +8,11 @@ struct Person {
     Person(std::string n, int a) : name(n), age(a) {
         std::cout << "constructor called\n";
     }
-
+    
     void print_info() {
         std::cout << name << " " << age << "\n";
     }
-
+    
     //destructor
     ~Person() {
         std::cout << "destructor called\n";
