@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -O3
 
 # List all .cpp files in the src directory
 SOURCES := $(wildcard src/*.cpp)
