@@ -1,24 +1,31 @@
-CC = g++
-CFLAGS = -Wall -g -O3 -std=c++11
+# Makefile to compile all .cpp files in src directory into executables in bin directory
 
-# List all .cpp files in the src directory
-SOURCES := $(wildcard src/*.cpp)
+# Compiler settings - Can be customized.
+CXX = g++
+CXXFLAGS = -Wall -g
 
-# Transform the source file paths to target executable names
-TARGETS := $(patsubst src/%.cpp,bin/%,$(SOURCES))
+# Directories
+SRCDIR = src
+BINDIR = bin
 
-all: $(TARGETS)
+# Get all .cpp files from the src directory
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+# Generate corresponding executable names in the bin directory
+EXECUTABLES := $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%)
 
+# Default target
+all: $(EXECUTABLES)
 
-# Your compilation rule here
-$(TARGETS): bin/% : src/%.cpp | bin
-	$(CC) $(CFLAGS) -o $@ $<
+# Rule to create the bin directory if it doesn't exist
+$(BINDIR)/:
+	mkdir -p $(BINDIR)
 
-# Rule to compile source files into object files
-obj/%.o: src/%.cpp
-	mkdir -p obj
-	$(CC) $(CFLAGS) -c -o $@ $<
+# Rule to compile .cpp files to executables
+$(BINDIR)/%: $(SRCDIR)/%.cpp | $(BINDIR)/
+	$(CXX) $(CXXFLAGS) $< -o $@
 
+# Clean target to remove all executables
 clean:
-	rm -f bin/* obj/*
+	rm -f $(BINDIR)/*
 
+.PHONY: all clean
